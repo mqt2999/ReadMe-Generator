@@ -2,8 +2,8 @@
 const fs = require('fs')
 //imports inquirer
 const inquirer = require('inquirer')
-//
-const promptArray = [  {
+//array of prompt questions that take user input from the console
+const promptArray = [{
     type: 'input',
     message: 'what is the tittle of your repository?',
     name: 'repoTittle'
@@ -24,47 +24,47 @@ const promptArray = [  {
     name: 'usage'
 },
 {
-type: 'input',
-message: 'List your collaborators, if any, with links to their GitHub profiles. If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section. If you followed tutorials, include links to those here as well.',
-name: 'credit'
+    type: 'input',
+    message: 'List your collaborators, if any, with links to their GitHub profiles. If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section. If you followed tutorials, include links to those here as well.',
+    name: 'credit'
 },
 {
-type: 'list',
-message: 'what licence would you like to choose?',
-choices: ['MIT'],
-name: 'licences'
+    type: 'list',
+    message: 'what licence would you like to choose?',
+    choices: ['MIT'],
+    name: 'licences'
 }
-,
+    ,
 {
-type: 'input',
-message: 'Please enter your github user name.',
-name: 'question1'
+    type: 'input',
+    message: 'Please enter your github user name.',
+    name: 'question1'
 },
 {
-type: 'input',
-message: 'please enter your email.',
-name: 'question2'
+    type: 'input',
+    message: 'please enter your email.',
+    name: 'question2'
 },
 {
-type: 'input',
-message: 'Enter test instructions',
-name: 'test'
+    type: 'input',
+    message: 'Enter test instructions',
+    name: 'test'
 }]
-
+//calls the inquirer class and promps the questoin array above 
 inquirer.
     prompt(promptArray)
-
-    .then ( (response) => {
-
+    //returns the user response 
+    .then((response) => {
+        //a function that takes in the user response and is processed by a file writer
         writeToRead(response)
-       
+
     })
-
-    function writeToRead(response){
-
-        var link = returnDis(response.licences)
-
-        fs.writeFile('README.md',
+//function takes in the users response 
+function writeToRead(response) {
+//instanciates a variable assigned to a functction that takes in the license value 
+    var link = returnDis(response.licences)
+// file system class using a write to file function and proccesses the user input and formats them in the readme 
+    fs.writeFile('README.md',
         `# ${response.repoTittle}           [![License](https://img.shields.io/badge/License-${response.licences}-yellow.svg)](https://shields.io/) 
 ## Description
 ${response.description}\n
@@ -88,20 +88,20 @@ ${response.description}\n
 * Github: ${response.question1}
 * Email: ${response.question2}
      `, function (error) {
-          
-      })
 
-    }
-function returnDis(licence){
+    })
 
-    if(licence === 'MIT'){
+}
+//function that takes in the license and returns a link for a description of the license 
+function returnDis(licence) {
+
+    if (licence === 'MIT') {
 
         var link = `<a href="https://opensource.org/licenses/MIT"> MIT License </a>`
-        
+
         return link
     }
-    
+
 
 }
 
-         
